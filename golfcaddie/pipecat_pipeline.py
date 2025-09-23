@@ -86,6 +86,7 @@ class PipecatGolfPipeline:
         
     async def _create_pipeline(self) -> Pipeline:
         """Create and configure the Pipecat pipeline."""
+        print("[PIPELINE_CREATE] Starting pipeline creation...")
         
         # Create InputParams for STT service (fixes deprecation warning)
         from pipecat.services.speechmatics.stt import SpeechmaticsSTTService
@@ -135,6 +136,11 @@ class PipecatGolfPipeline:
             params=audio_params
         )
         
+        # Install transcript hook immediately after STT service is created
+        print(f"[PRE_HOOK] About to install hook. Callback: {self._on_transcript}, STT service: {self._stt_service}")
+        self._install_transcript_hook()
+        print("[POST_HOOK] Hook installation completed")
+        
         # Build pipeline (STT only, TTS handled separately)
         # For now, use pipeline without custom processor to avoid frame lifecycle issues
         pipeline = Pipeline([
@@ -175,6 +181,7 @@ class PipecatGolfPipeline:
         
     async def start(self):
         """Start the pipeline."""
+        print("[START_METHOD] Pipeline start() method called")
         if self._runner is not None:
             logger.warning("Pipeline already running")
             return
@@ -184,11 +191,6 @@ class PipecatGolfPipeline:
             
             self._task = PipelineTask(pipeline)
             self._runner = PipelineRunner()
-            
-            # Install the transcript hook AFTER pipeline creation but BEFORE starting
-            print(f"[PRE_HOOK] About to install hook. Callback: {self._on_transcript}, STT service: {self._stt_service}")
-            self._install_transcript_hook()
-            print("[POST_HOOK] Hook installation completed")
             
             logger.info("Starting Pipecat pipeline with Speechmatics STT/TTS")
             await self._runner.run(self._task)
