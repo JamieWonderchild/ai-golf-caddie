@@ -21,9 +21,27 @@ class ParsedIntent:
 
 def parse_intent(text: str, handicap: Optional[int] = None) -> ParsedIntent:
     text_l = text.lower()
-    # distance like "150 yards" or "150y" or "at 150"
-    m = re.search(r"(\d{2,3})\s*(?:y|yd|yds|yards)?\b", text_l)
-    distance = int(m.group(1)) if m else None
+    
+    # Extract handicap first to avoid confusion with distance
+    handicap_mentioned = _extract_handicap_mention(text_l)
+    
+    # distance like "150 yards" or "150y" or "at 150" 
+    # BUT avoid matching numbers that are part of handicap mentions
+    distance = None
+    distance_patterns = [
+        r"(\d{2,3})\s*(?:yard|yards|y|yd|yds)\b",  # Require yard-related suffix
+        r"\bat\s+(\d{2,3})\b",  # "at 150"  
+        r"(\d{2,3})\s*(?:yard|yards)\s+(?:par|hole)",  # "161 yard par three"
+    ]
+    
+    for pattern in distance_patterns:
+        m = re.search(pattern, text_l)
+        if m:
+            potential_distance = int(m.group(1))
+            # Avoid distances that are likely handicaps (under 36)
+            if potential_distance > 36:  # Reasonable minimum golf shot distance
+                distance = potential_distance
+                break
 
     lie = "fairway"
     for cand in LIES:
@@ -39,9 +57,6 @@ def parse_intent(text: str, handicap: Optional[int] = None) -> ParsedIntent:
 
     # Extract club mentions
     club_mentioned = _extract_club_mention(text_l)
-    
-    # Extract handicap mentions
-    handicap_mentioned = _extract_handicap_mention(text_l)
     
     # Use mentioned handicap if available, otherwise fall back to provided handicap
     effective_handicap = handicap_mentioned if handicap_mentioned is not None else handicap
@@ -63,11 +78,13 @@ def parse_intent(text: str, handicap: Optional[int] = None) -> ParsedIntent:
 
 def _extract_club_mention(text_l: str) -> Optional[str]:
     """Extract club mentions from text."""
-    # Club patterns to look for
+    # Club patterns to look for (including word numbers)
     club_patterns = [
         r"\b(driver|drive)\b",
         r"\b(\d+)\s*wood\b",
-        r"\b(\d+)\s*iron\b",
+        r"\b(three|four|five|six|seven|eight|nine)\s*wood\b",
+        r"\b(\d+)\s*iron\b", 
+        r"\b(three|four|five|six|seven|eight|nine)\s*iron\b",
         r"\b(pitching\s*wedge|pw)\b",
         r"\b(sand\s*wedge|sw)\b",
         r"\b(lob\s*wedge|lw)\b",
@@ -75,6 +92,9 @@ def _extract_club_mention(text_l: str) -> Optional[str]:
         r"\b(wedge)\b",
         r"\b(putter|putt)\b",
     ]
+    
+    # Word to number mapping for clubs
+    word_to_num = {'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9}
     
     for pattern in club_patterns:
         match = re.search(pattern, text_l)
@@ -84,9 +104,19 @@ def _extract_club_mention(text_l: str) -> Optional[str]:
             if "driver" in full_match or "drive" in full_match:
                 return "driver"
             elif "wood" in full_match:
+                # Check for word numbers first
+                for word, num in word_to_num.items():
+                    if word in full_match:
+                        return f"{num}-wood"
+                # Fall back to digit
                 number = re.search(r"(\d+)", full_match)
                 return f"{number.group(1)}-wood" if number else "3-wood"
             elif "iron" in full_match:
+                # Check for word numbers first  
+                for word, num in word_to_num.items():
+                    if word in full_match:
+                        return f"{num}-iron"
+                # Fall back to digit
                 number = re.search(r"(\d+)", full_match)
                 return f"{number.group(1)}-iron" if number else "7-iron"
             elif "pitching" in full_match or "pw" in full_match:

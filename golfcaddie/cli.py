@@ -286,7 +286,8 @@ def listen(api_key: Optional[str], mock: bool, language: str,
             try:
                 last_len = getattr(listen, "_last_partial_len", 0)  # type: ignore[attr-defined]
                 if last_len:
-                    sys.stdout.write("\r" + (" " * last_len) + "\r")
+                    # Clear the current line completely
+                    sys.stdout.write("\r\x1b[K")
                     sys.stdout.flush()
                     listen._last_partial_len = 0  # type: ignore[attr-defined]
             except Exception:
@@ -305,7 +306,11 @@ def listen(api_key: Optional[str], mock: bool, language: str,
                     if text == last_text and (now - last_ts) < 0.33:
                         return
 
-                    line = f"🎤 Listening: {text}"
+                    # Truncate long text to prevent line wrapping issues
+                    max_width = 120  # Adjust based on typical terminal width
+                    display_text = text if len(text) <= max_width else text[:max_width-3] + "..."
+                    
+                    line = f"🎤 Listening: {display_text}"
                     # Render in-place and clear to end-of-line
                     sys.stdout.write("\r" + line + "\x1b[K")
                     sys.stdout.flush()

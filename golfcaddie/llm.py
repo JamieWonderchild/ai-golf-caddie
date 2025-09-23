@@ -106,20 +106,41 @@ def _build_statistics_context(transcript: str, handicap: int) -> str:
             proximity = stats.proximity_to_target.get_expected_proximity(distance)
             gir_pct = stats.greens_in_regulation.get_gir_percentage(distance)
             
+            # Course management reality check
+            course_mgmt_advice = ""
+            if handicap >= 20 and distance > 150:
+                if gir_pct < 15:  # Very low success rate
+                    course_mgmt_advice = f"⚠️ COURSE MANAGEMENT ALERT: {gir_pct}% success rate suggests LAYUP STRATEGY may be smarter"
+                if "3-iron" in club_rec or "4-iron" in club_rec:
+                    course_mgmt_advice += f" ⚠️ Most {stats.category} players don't carry {club_rec} - consider Driver/3-wood or layup"
+            
             context_parts.extend([
-                f"RECOMMENDED CLUB for {distance}y: {club_rec}",
+                f"MECHANICAL CLUB RECOMMENDATION for {distance}y: {club_rec}",
                 f"REALISTIC EXPECTATION: {proximity}ft from pin (typical for this handicap)",
                 f"SUCCESS RATE: {gir_pct}% chance of hitting green from {distance}y",
             ])
+            
+            if course_mgmt_advice:
+                context_parts.append(course_mgmt_advice)
         
-        # Course management focused performance data
+        # Course management focused performance data  
         context_parts.extend([
-            f"STRENGTHS TO PLAY TO:",
+            f"PLAYER PERFORMANCE PROFILE:",
             f"- Overall GIR: {stats.greens_in_regulation.overall}% (play to your average)",
-            f"- Fairways hit: {stats.fairways_hit}% (prioritize fairways over distance)",
+            f"- Fairways hit: {stats.fairways_hit}% (prioritize fairways over distance)",  
             f"- Scrambling: {stats.short_game.scrambling_percentage}% (short game bailout ability)",
             f"- 3-putt rate: {stats.putting.three_putts_per_round:.1f}/round (putting pressure tolerance)",
         ])
+        
+        # Add high handicap course management philosophy
+        if handicap >= 20:
+            context_parts.extend([
+                f"HIGH HANDICAP COURSE MANAGEMENT PRIORITIES:",
+                f"- AVOID DISASTER: Double bogey or worse ruins scores more than birdies help",
+                f"- PLAY FOR BOGEY: Making bogey is often a good result, don't force heroic shots",
+                f"- USE STRONGEST CLUBS: Driver and short irons are most reliable",
+                f"- LAYUP WHEN IN DOUBT: Getting a comfortable next shot often scores better",
+            ])
         
         # Club distances with course management context
         key_clubs = [
