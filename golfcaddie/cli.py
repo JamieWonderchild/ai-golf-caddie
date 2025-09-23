@@ -95,9 +95,24 @@ def listen(api_key: Optional[str], mock: bool, language: str,
            bearing: int, handicap: int, openai: bool, debug: bool, replay: bool):
     """Live mic: transcribe with Speechmatics and output recommendations."""
     # Load environment variables from .env file
-    load_dotenv()
-    
     import os
+    from pathlib import Path
+    
+    # Get the project root directory (parent of golfcaddie package)
+    project_root = Path(__file__).parent.parent
+    env_file = project_root / ".env"
+    
+    # Load environment variables with explicit path
+    load_dotenv(env_file)
+    
+    # Verify environment loading
+    if not os.getenv("SPEECHMATICS_API_KEY"):
+        # Try loading from current working directory as fallback
+        load_dotenv()
+        if not os.getenv("SPEECHMATICS_API_KEY"):
+            click.echo(f"Error: Could not load .env file from {env_file} or current directory", err=True)
+            raise click.Abort()
+    
     api_key = api_key or os.getenv("SPEECHMATICS_API_KEY")
     # Pipecat handles URL configuration internally
     if not api_key:
