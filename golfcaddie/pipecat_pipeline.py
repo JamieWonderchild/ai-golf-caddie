@@ -21,7 +21,7 @@ from pipecat.pipeline.runner import PipelineRunner
 from pipecat.pipeline.task import PipelineTask
 from pipecat.processors.frame_processor import FrameProcessor, FrameDirection
 from pipecat.services.speechmatics.stt import SpeechmaticsSTTService
-from pipecat.transports.local.audio import LocalAudioInputTransport, LocalAudioTransportParams
+from pipecat.transports.local.audio import LocalAudioTransport, LocalAudioTransportParams
 import pyaudio
 
 from .tts import speak as speechmatics_speak
@@ -75,7 +75,7 @@ class PipecatGolfPipeline:
         # Pipeline components
         self._stt_service: Optional[SpeechmaticsSTTService] = None
         self._processor: Optional[GolfCaddieProcessor] = None
-        self._audio_input: Optional[LocalAudioInputTransport] = None
+        self._audio_transport: Optional[LocalAudioTransport] = None
         
     def set_callbacks(
         self,
@@ -88,51 +88,38 @@ class PipecatGolfPipeline:
         """Create and configure the Pipecat pipeline."""
         logger.info("[PIPELINE_CREATE] Starting pipeline creation...")
         
-        # Create STT service with simple configuration (revert complex InputParams)
+        # Create STT service with proper InputParams (matching working examples)
+        from pipecat.transcriptions.language import Language
+        
         self._stt_service = SpeechmaticsSTTService(
             api_key=self.config.api_key,
             sample_rate=self.config.sample_rate,
-            # Use minimal parameters that were working before
+            params=SpeechmaticsSTTService.InputParams(
+                language=Language.EN,  # Use proper Language enum, not string
+                enable_partials=True,  # Enable partial transcriptions for real-time feedback
+                end_of_utterance_silence_trigger=0.5,  # From working example
+            )
         )
         
         
         
-        # Create PyAudio instance
-        py_audio = pyaudio.PyAudio()
-        
-        # Parse device index if provided (could be string index or device name)
-        device_index = None
-        if self.config.device is not None:
-            try:
-                device_index = int(self.config.device)
-            except ValueError:
-                # If device is a string name, we'd need to enumerate devices to find index
-                # For now, fall back to None (default device)
-                logger.warning(f"Device '{self.config.device}' not found as index, using default")
-                device_index = None
-        
-        # Create audio input transport with proper parameters
-        audio_params = LocalAudioTransportParams(
+        # Create audio transport using LocalAudioTransportParams
+        transport_params = LocalAudioTransportParams(
             audio_in_enabled=True,
             audio_in_sample_rate=self.config.sample_rate,
             audio_in_channels=1,
-            input_device_index=device_index
         )
         
-        self._audio_input = LocalAudioInputTransport(
-            py_audio=py_audio,
-            params=audio_params
-        )
+        self._audio_transport = LocalAudioTransport(params=transport_params)
         
         # Install transcript hook immediately after STT service is created
         logger.info(f"[PRE_HOOK] About to install hook. Callback: {self._on_transcript}, STT service: {self._stt_service}")
         self._install_transcript_hook()
         logger.info("[POST_HOOK] Hook installation completed")
         
-        # Build pipeline (STT only, TTS handled separately)
-        # For now, use pipeline without custom processor to avoid frame lifecycle issues
+        # Build pipeline using working example pattern (STT only, TTS handled separately)
         pipeline = Pipeline([
-            self._audio_input,
+            self._audio_transport.input(),  # Use transport.input() like working examples
             self._stt_service,
         ])
         
