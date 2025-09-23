@@ -11,7 +11,7 @@ from .parser import parse_intent
 
 def build_prompt(
     transcript: str,
-    handicap: int,
+    handicap: int | None,
     lat: float,
     lon: float,
     bearing: int,
@@ -39,26 +39,41 @@ def build_prompt(
     conditions_block = (f"Current conditions: {conditions}\n" if conditions else "")
     hole_block = (f"Hole layout: {hole_layout}\n" if hole_layout else "")
     
-    # Add golf statistics context
-    stats_block = _build_statistics_context(transcript, handicap)
+    # Handle missing handicap case
+    if handicap is None:
+        handicap_prompt = (
+            "IMPORTANT: No handicap provided. Ask the user for their handicap or skill level "
+            "to give proper course management advice. Say something like: "
+            "'What's your handicap? I need to know your skill level to recommend the right shot strategy.'\n\n"
+        )
+        stats_block = ""
+    else:
+        handicap_prompt = ""
+        # Add golf statistics context
+        stats_block = _build_statistics_context(transcript, handicap)
 
     return (
-        "You are a witty, sarcastic but helpful golf caddie.\n"
-        + history_block
-        + "Task: Based on the user's transcript and metadata, choose an appropriate club and shot.\n"
-        "Instructions:\n"
-        "- Do NOT default to the same club each time (avoid always suggesting 7-iron).\n"
-        "- Consider distance, lie, hazards, handicap and risk tolerance.\n"
-        "- Use the performance data below to give realistic recommendations for this handicap level.\n"
-        "- If uncertain, pick the most playable safe option for the handicap.\n"
-        "- Keep it concise and specific.\n"
+        "You are a COURSE MANAGEMENT focused golf caddie. Your primary role is helping players "
+        "make smart, conservative decisions that minimize big numbers and play to their strengths.\n"
+        + history_block + handicap_prompt +
+        "COURSE MANAGEMENT PHILOSOPHY:\n"
+        "Golf is about hitting the LEAST WORST shot, not the perfect shot. Course management "
+        "trumps raw skill. Your job is to help players avoid disaster and play within their abilities.\n\n"
+        "Task: Recommend the SMARTEST shot for this player's skill level, not the most aggressive.\n"
+        "CORE PRINCIPLES:\n"
+        "- SAFETY FIRST: Avoid hazards, pick conservative targets, leave room for error\n"
+        "- PLAY YOUR DISTANCES: Use the performance data to recommend realistic expectations\n"
+        "- PERCENTAGES MATTER: Focus on high-percentage shots that this handicap can execute\n"
+        "- LEAVE YOURSELF OPTIONS: Consider where a miss will end up\n"
+        "- SHORT SIDE IS DEATH: Avoid short-sided positions around greens\n"
+        "- WHEN IN DOUBT, TAKE MORE CLUB and aim for center of target\n"
         + humor_hint +
-        "Output (<= 2 sentences):\n"
-        "1) Club + shot type + simple aim note if needed + reason as to why.\n"
-        "2) Two short humorous sentence.\n\n"
+        "Response Format:\n"
+        "1) Smart club choice + target + course management reason\n"
+        "2) One witty comment about playing percentages or avoiding trouble\n\n"
         + conditions_block + hole_block + stats_block +
         f"Transcript: {transcript}\n"
-        f"Handicap: {handicap}\n"
+        f"Handicap: {'Unknown - ASK FOR IT!' if handicap is None else handicap}\n"
         f"Location: lat={lat}, lon={lon}, bearing={bearing}\n"
     )
 
@@ -76,12 +91,12 @@ def _build_statistics_context(transcript: str, handicap: int) -> str:
         distance = intent.distance_yards
         
         context_parts = [
-            f"Player Profile: {stats.category} golfer (handicap {handicap})",
+            f"PLAYER SKILL PROFILE: {stats.category} golfer (handicap {handicap})",
         ]
         
         # Show validation warning if present
         if intent.validation_warning:
-            context_parts.append(f"Note: {intent.validation_warning}")
+            context_parts.append(f"⚠️ REALITY CHECK: {intent.validation_warning}")
         
         # Add distance-specific context if distance is mentioned
         if distance:
@@ -90,20 +105,21 @@ def _build_statistics_context(transcript: str, handicap: int) -> str:
             gir_pct = stats.greens_in_regulation.get_gir_percentage(distance)
             
             context_parts.extend([
-                f"Recommended club for {distance}y: {club_rec}",
-                f"Expected proximity from {distance}y: {proximity} feet",
-                f"Greens-in-regulation rate from {distance}y: {gir_pct}%",
+                f"RECOMMENDED CLUB for {distance}y: {club_rec}",
+                f"REALISTIC EXPECTATION: {proximity}ft from pin (typical for this handicap)",
+                f"SUCCESS RATE: {gir_pct}% chance of hitting green from {distance}y",
             ])
         
-        # Add key performance indicators
+        # Course management focused performance data
         context_parts.extend([
-            f"Overall GIR: {stats.greens_in_regulation.overall}%",
-            f"Fairways hit: {stats.fairways_hit}%",
-            f"Scrambling: {stats.short_game.scrambling_percentage}%",
-            f"3-putt rate: {stats.putting.three_putts_per_round:.1f}/round",
+            f"STRENGTHS TO PLAY TO:",
+            f"- Overall GIR: {stats.greens_in_regulation.overall}% (play to your average)",
+            f"- Fairways hit: {stats.fairways_hit}% (prioritize fairways over distance)",
+            f"- Scrambling: {stats.short_game.scrambling_percentage}% (short game bailout ability)",
+            f"- 3-putt rate: {stats.putting.three_putts_per_round:.1f}/round (putting pressure tolerance)",
         ])
         
-        # Add club distances for reference
+        # Club distances with course management context
         key_clubs = [
             ("driver", stats.club_distances.driver),
             ("7-iron", stats.club_distances.seven_iron),
@@ -111,9 +127,14 @@ def _build_statistics_context(transcript: str, handicap: int) -> str:
         ]
         
         club_distances = ", ".join([f"{club}: {dist}y" for club, dist in key_clubs])
-        context_parts.append(f"Typical distances: {club_distances}")
+        context_parts.extend([
+            f"DISTANCE REALITY CHECK:",
+            f"- {club_distances}",
+            f"- These are TYPICAL distances - recommend taking MORE club in pressure situations",
+            f"- Factor in adrenaline, wind, pin position when choosing",
+        ])
         
-        return "Performance Data:\n" + "\n".join(f"- {part}" for part in context_parts) + "\n\n"
+        return "COURSE MANAGEMENT DATA:\n" + "\n".join(f"- {part}" for part in context_parts) + "\n\n"
         
     except Exception:
         # Fail gracefully if statistics can't be loaded
