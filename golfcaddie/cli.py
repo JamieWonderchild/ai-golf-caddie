@@ -104,9 +104,10 @@ def weather(lat: float, lon: float, bearing: int):
 @click.option('--openai', is_flag=True, default=False, help='(Deprecated) OpenAI mode is now the default')
 @click.option('--debug/--no-debug', default=False, help='Show verbose debug output')
 @click.option('--replay/--no-replay', default=False, help='Prompt to replay/delete TTS WAV')
+@click.option('--partials/--no-partials', default=True, help='Show interim transcripts while speaking')
 def listen(api_key: Optional[str], mock: bool, language: str, 
            device: Optional[str], lat: float, lon: float, 
-           bearing: int, handicap: int, openai: bool, debug: bool, replay: bool):
+           bearing: int, handicap: int, openai: bool, debug: bool, replay: bool, partials: bool):
     """Live mic: transcribe with Speechmatics and output recommendations."""
     # Load environment variables from .env file
     import os
@@ -281,13 +282,40 @@ def listen(api_key: Optional[str], mock: bool, language: str,
     def on_transcript_callback(text: str, is_final: bool):
         """Callback from Pipecat pipeline for transcripts."""
         if is_final:
+            # Clear any in-progress partial line before printing final
+            try:
+                last_len = getattr(listen, "_last_partial_len", 0)  # type: ignore[attr-defined]
+                if last_len:
+                    sys.stdout.write("\r" + (" " * last_len) + "\r")
+                    sys.stdout.flush()
+                    listen._last_partial_len = 0  # type: ignore[attr-defined]
+            except Exception:
+                pass
             # Process final transcripts automatically
             asyncio.create_task(process_transcript_automatically(text))
         else:
-            # Just show interim transcripts with proper clearing
-            if text.strip():
-                # Clear previous line and show current interim transcript
-                click.echo(f"\r🎤 Listening: {text:<80}", nl=False)
+            # Just show interim transcripts with de-dupe/throttle and in-place rendering
+            if partials and text.strip():
+                try:
+                    now = time.time()
+                    last_text = getattr(listen, "_last_partial_text", "")  # type: ignore[attr-defined]
+                    last_ts = getattr(listen, "_last_partial_ts", 0.0)  # type: ignore[attr-defined]
+
+                    # De-dupe identical partials and throttle updates to ~3/sec
+                    if text == last_text and (now - last_ts) < 0.33:
+                        return
+
+                    line = f"🎤 Listening: {text}"
+                    # Render in-place and clear to end-of-line
+                    sys.stdout.write("\r" + line + "\x1b[K")
+                    sys.stdout.flush()
+
+                    listen._last_partial_text = text  # type: ignore[attr-defined]
+                    listen._last_partial_ts = now  # type: ignore[attr-defined]
+                    listen._last_partial_len = len(line)  # type: ignore[attr-defined]
+                except Exception:
+                    # Fallback simple print
+                    click.echo(f"🎤 Listening: {text}", nl=False)
 
     # Create Pipecat pipeline configuration
     config = PipelineConfig(
