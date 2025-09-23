@@ -93,7 +93,7 @@ class PipecatGolfPipeline:
         # CRITICAL: enable_partials=True is REQUIRED for real-time transcription!
         from pipecat.transcriptions.language import Language
 
-        # Configure Speechmatics STT service
+        # Configure Speechmatics STT service with optimized settings for natural speech
         self._stt_service = SpeechmaticsSTTService(
             api_key=self.config.api_key,
             base_url="wss://eu2.rt.speechmatics.com/v2",
@@ -101,9 +101,9 @@ class PipecatGolfPipeline:
             params=SpeechmaticsSTTService.InputParams(
                 language=Language.EN,
                 enable_partials=True,
-                max_delay=1.0,
-                chunk_size=160,
-                enable_vad=False,
+                max_delay=3.0,  # Allow 3 seconds for natural speech pauses (was 1.0s)
+                chunk_size=160, # Keep chunk size small for responsiveness
+                enable_vad=True,  # Use Voice Activity Detection for better speech boundary detection
             )
         )
         
