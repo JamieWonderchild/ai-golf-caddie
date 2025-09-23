@@ -49,17 +49,20 @@ class GolfCaddieProcessor(FrameProcessor):
         self._on_transcript = on_transcript
     
     async def process_frame(self, frame: Frame, direction: FrameDirection):
-        """Process frames - pass all through, capture transcriptions."""
-        
-        # Handle transcription frames (STT output)
+        """Process frames - capture transcripts and pass through."""
+
+        # IMPORTANT: let base class handle StartFrame/system frames first
+        await super().process_frame(frame, direction)
+
+        # Capture STT frames only
         if isinstance(frame, TranscriptionFrame):
-            if self._on_transcript:
-                self._on_transcript(frame.text, True)  # final transcript
+            if self._on_transcript and getattr(frame, "text", None):
+                self._on_transcript(frame.text, True)
         elif isinstance(frame, InterimTranscriptionFrame):
-            if self._on_transcript:
-                self._on_transcript(frame.text, False)  # interim transcript
-                
-        # Always pass frame through - let Pipecat handle all frame lifecycle
+            if self._on_transcript and getattr(frame, "text", None):
+                self._on_transcript(frame.text, False)
+
+        # Pass frame along
         await self.push_frame(frame, direction)
 
 
@@ -86,77 +89,72 @@ class PipecatGolfPipeline:
         
     async def _create_pipeline(self) -> Pipeline:
         """Create and configure the Pipecat pipeline."""
-        logger.info("[PIPELINE_CREATE] Starting pipeline creation...")
         
-        # Create STT service with proper InputParams (matching working examples)
+        # CRITICAL: enable_partials=True is REQUIRED for real-time transcription!
         from pipecat.transcriptions.language import Language
-        
+
+        # Configure Speechmatics STT service
         self._stt_service = SpeechmaticsSTTService(
             api_key=self.config.api_key,
+            base_url="wss://eu2.rt.speechmatics.com/v2",
             sample_rate=self.config.sample_rate,
             params=SpeechmaticsSTTService.InputParams(
-                language=Language.EN,  # Use proper Language enum, not string
-                enable_partials=True,  # Enable partial transcriptions for real-time feedback
-                end_of_utterance_silence_trigger=0.5,  # From working example
+                language=Language.EN,
+                enable_partials=True,
+                max_delay=1.0,
+                chunk_size=160,
+                enable_vad=False,
             )
         )
         
         
         
+        # Resolve input device if provided (by index or name substring)
+        input_device_index = None
+        if self.config.device is not None:
+            try:
+                # Accept integer indices directly
+                input_device_index = int(self.config.device)
+            except (TypeError, ValueError):
+                try:
+                    p = pyaudio.PyAudio()
+                    for i in range(p.get_device_count()):
+                        info = p.get_device_info_by_index(i)
+                        name = info.get("name", "")
+                        if self.config.device.lower() in name.lower() and info.get("maxInputChannels", 0) > 0:
+                            input_device_index = i
+                            break
+                except Exception as _e:
+                    logger.warning(f"Could not resolve device '{self.config.device}': {_e}")
+
         # Create audio transport using LocalAudioTransportParams
         transport_params = LocalAudioTransportParams(
             audio_in_enabled=True,
             audio_in_sample_rate=self.config.sample_rate,
             audio_in_channels=1,
+            input_device_index=input_device_index,
         )
         
         self._audio_transport = LocalAudioTransport(params=transport_params)
-        
-        # Install transcript hook immediately after STT service is created
-        logger.info(f"[PRE_HOOK] About to install hook. Callback: {self._on_transcript}, STT service: {self._stt_service}")
-        self._install_transcript_hook()
-        logger.info("[POST_HOOK] Hook installation completed")
-        
-        # Build pipeline using working example pattern (STT only, TTS handled separately)
+
+        # Add a processor after STT to capture outgoing transcription frames
+        self._processor = GolfCaddieProcessor(on_transcript=self._on_transcript)
+
+        # Build pipeline: mic -> STT -> processor
         pipeline = Pipeline([
-            self._audio_transport.input(),  # Use transport.input() like working examples
+            self._audio_transport.input(),
             self._stt_service,
+            self._processor,
         ])
         
         return pipeline
     
     def _install_transcript_hook(self):
-        """Install the transcript hook after pipeline creation."""
-        logger.info(f"[DEBUG] Installing hook, callback: {self._on_transcript}")
-        if self._on_transcript and self._stt_service:
-            logger.info("[SETUP] Installing _send_frames hook...")
-            original_send_frames = self._stt_service._send_frames
-            
-            def hooked_send_frames(frames):
-                logger.info(f"[DIRECT_HOOK] _send_frames called with {len(frames)} frames")
-                
-                # Process frames to extract transcripts
-                for frame in frames:
-                    logger.info(f"[DIRECT_HOOK] Frame type: {type(frame).__name__}")
-                    if hasattr(frame, 'text') and frame.text:
-                        logger.info(f"[DIRECT_HOOK] Found transcript: '{frame.text}'")
-                        # Check if it's a final transcript
-                        is_final = type(frame).__name__ == 'TranscriptionFrame'
-                        logger.info(f"[DIRECT_HOOK] Calling callback: is_final={is_final}")
-                        self._on_transcript(frame.text, is_final)
-                
-                # Call the original method
-                return original_send_frames(frames)
-            
-            # Replace the method
-            self._stt_service._send_frames = hooked_send_frames
-            logger.info("[SETUP] Successfully hooked into _send_frames method")
-        else:
-            logger.info("[SETUP] No transcript callback or STT service, skipping hook")
+        """Deprecated: previously hooked internal methods; no longer used."""
+        logger.debug("Transcript hook not used; processor captures frames downstream.")
         
     async def start(self):
         """Start the pipeline."""
-        logger.info("[START_METHOD] Pipeline start() method called")
         if self._runner is not None:
             logger.warning("Pipeline already running")
             return
