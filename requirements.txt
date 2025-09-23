@@ -1,0 +1,12 @@
+python-dotenv==1.0.1
+httpx==0.27.2
+click>=8.1.7
+pytest==8.3.2
+pytest-asyncio==0.23.8
+
+# Pipecat with Speechmatics and local audio integration
+pipecat-ai[speechmatics,local]>=0.0.50
+
+# Optional LLM/TTS for OpenAI-driven responses
+openai>=1.40.0
+

@@ -1,0 +1,1211 @@
+{
+  "metadata": {
+    "title": "Comprehensive Golf Statistics by Handicap",
+    "description": "Synthetic dataset covering club distances, proximity to target, and performance statistics for handicaps 0-20",
+    "data_source": "Synthetic data based on 2024 industry averages and research",
+    "units": {
+      "distance": "yards",
+      "proximity": "feet",
+      "percentages": "percent"
+    }
+  },
+  "handicap_statistics": {
+    "0": {
+      "handicap": 0,
+      "category": "Scratch",
+      "club_distances": {
+        "driver": 285,
+        "3_wood": 270,
+        "5_wood": 250,
+        "3_iron": 230,
+        "4_iron": 220,
+        "5_iron": 200,
+        "6_iron": 185,
+        "7_iron": 170,
+        "8_iron": 155,
+        "9_iron": 140,
+        "pitching_wedge": 125,
+        "sand_wedge": 110,
+        "lob_wedge": 95
+      },
+      "proximity_to_target": {
+        "50_yards": 8,
+        "75_yards": 12,
+        "100_yards": 18,
+        "125_yards": 25,
+        "150_yards": 35,
+        "175_yards": 45,
+        "200_yards": 60
+      },
+      "greens_in_regulation": {
+        "overall": 72,
+        "100_125_yards": 85,
+        "125_150_yards": 78,
+        "150_175_yards": 65,
+        "175_200_yards": 52,
+        "200_plus_yards": 35
+      },
+      "short_game": {
+        "sand_save_percentage": 65,
+        "up_and_down_0_25_yards": 75,
+        "up_and_down_25_50_yards": 68,
+        "scrambling_percentage": 70
+      },
+      "putting": {
+        "putts_per_round": 28.5,
+        "one_putts_per_round": 5.2,
+        "three_putts_per_round": 1.3,
+        "make_percentage_3_feet": 98,
+        "make_percentage_6_feet": 85,
+        "make_percentage_10_feet": 55,
+        "make_percentage_15_feet": 35,
+        "make_percentage_20_feet": 22
+      },
+      "course_management": {
+        "fairways_hit": 68,
+        "penalty_strokes_per_round": 1.2,
+        "average_score": 72
+      }
+    },
+    "1": {
+      "handicap": 1,
+      "category": "Scratch Plus",
+      "club_distances": {
+        "driver": 282,
+        "3_wood": 267,
+        "5_wood": 247,
+        "3_iron": 227,
+        "4_iron": 217,
+        "5_iron": 197,
+        "6_iron": 182,
+        "7_iron": 167,
+        "8_iron": 152,
+        "9_iron": 137,
+        "pitching_wedge": 122,
+        "sand_wedge": 107,
+        "lob_wedge": 92
+      },
+      "proximity_to_target": {
+        "50_yards": 9,
+        "75_yards": 13,
+        "100_yards": 20,
+        "125_yards": 27,
+        "150_yards": 38,
+        "175_yards": 48,
+        "200_yards": 65
+      },
+      "greens_in_regulation": {
+        "overall": 69,
+        "100_125_yards": 82,
+        "125_150_yards": 75,
+        "150_175_yards": 62,
+        "175_200_yards": 49,
+        "200_plus_yards": 32
+      },
+      "short_game": {
+        "sand_save_percentage": 62,
+        "up_and_down_0_25_yards": 72,
+        "up_and_down_25_50_yards": 65,
+        "scrambling_percentage": 67
+      },
+      "putting": {
+        "putts_per_round": 29.2,
+        "one_putts_per_round": 4.9,
+        "three_putts_per_round": 1.5,
+        "make_percentage_3_feet": 97,
+        "make_percentage_6_feet": 82,
+        "make_percentage_10_feet": 52,
+        "make_percentage_15_feet": 32,
+        "make_percentage_20_feet": 20
+      },
+      "course_management": {
+        "fairways_hit": 65,
+        "penalty_strokes_per_round": 1.4,
+        "average_score": 73
+      }
+    },
+    "2": {
+      "handicap": 2,
+      "category": "Low Single Digit",
+      "club_distances": {
+        "driver": 278,
+        "3_wood": 263,
+        "5_wood": 243,
+        "3_iron": 223,
+        "4_iron": 213,
+        "5_iron": 193,
+        "6_iron": 178,
+        "7_iron": 163,
+        "8_iron": 148,
+        "9_iron": 133,
+        "pitching_wedge": 118,
+        "sand_wedge": 103,
+        "lob_wedge": 88
+      },
+      "proximity_to_target": {
+        "50_yards": 10,
+        "75_yards": 15,
+        "100_yards": 22,
+        "125_yards": 30,
+        "150_yards": 42,
+        "175_yards": 52,
+        "200_yards": 70
+      },
+      "greens_in_regulation": {
+        "overall": 66,
+        "100_125_yards": 79,
+        "125_150_yards": 72,
+        "150_175_yards": 58,
+        "175_200_yards": 45,
+        "200_plus_yards": 28
+      },
+      "short_game": {
+        "sand_save_percentage": 58,
+        "up_and_down_0_25_yards": 68,
+        "up_and_down_25_50_yards": 61,
+        "scrambling_percentage": 63
+      },
+      "putting": {
+        "putts_per_round": 30.1,
+        "one_putts_per_round": 4.5,
+        "three_putts_per_round": 1.8,
+        "make_percentage_3_feet": 96,
+        "make_percentage_6_feet": 78,
+        "make_percentage_10_feet": 48,
+        "make_percentage_15_feet": 28,
+        "make_percentage_20_feet": 17
+      },
+      "course_management": {
+        "fairways_hit": 62,
+        "penalty_strokes_per_round": 1.7,
+        "average_score": 74
+      }
+    },
+    "3": {
+      "handicap": 3,
+      "category": "Low Single Digit",
+      "club_distances": {
+        "driver": 275,
+        "3_wood": 260,
+        "5_wood": 240,
+        "3_iron": 220,
+        "4_iron": 210,
+        "5_iron": 190,
+        "6_iron": 175,
+        "7_iron": 160,
+        "8_iron": 145,
+        "9_iron": 130,
+        "pitching_wedge": 115,
+        "sand_wedge": 100,
+        "lob_wedge": 85
+      },
+      "proximity_to_target": {
+        "50_yards": 11,
+        "75_yards": 16,
+        "100_yards": 25,
+        "125_yards": 33,
+        "150_yards": 45,
+        "175_yards": 55,
+        "200_yards": 75
+      },
+      "greens_in_regulation": {
+        "overall": 63,
+        "100_125_yards": 76,
+        "125_150_yards": 68,
+        "150_175_yards": 54,
+        "175_200_yards": 41,
+        "200_plus_yards": 25
+      },
+      "short_game": {
+        "sand_save_percentage": 55,
+        "up_and_down_0_25_yards": 65,
+        "up_and_down_25_50_yards": 58,
+        "scrambling_percentage": 60
+      },
+      "putting": {
+        "putts_per_round": 30.8,
+        "one_putts_per_round": 4.2,
+        "three_putts_per_round": 2.1,
+        "make_percentage_3_feet": 95,
+        "make_percentage_6_feet": 75,
+        "make_percentage_10_feet": 45,
+        "make_percentage_15_feet": 25,
+        "make_percentage_20_feet": 15
+      },
+      "course_management": {
+        "fairways_hit": 59,
+        "penalty_strokes_per_round": 2.0,
+        "average_score": 75
+      }
+    },
+    "4": {
+      "handicap": 4,
+      "category": "Low Single Digit",
+      "club_distances": {
+        "driver": 272,
+        "3_wood": 257,
+        "5_wood": 237,
+        "3_iron": 217,
+        "4_iron": 207,
+        "5_iron": 187,
+        "6_iron": 172,
+        "7_iron": 157,
+        "8_iron": 142,
+        "9_iron": 127,
+        "pitching_wedge": 112,
+        "sand_wedge": 97,
+        "lob_wedge": 82
+      },
+      "proximity_to_target": {
+        "50_yards": 12,
+        "75_yards": 18,
+        "100_yards": 27,
+        "125_yards": 36,
+        "150_yards": 48,
+        "175_yards": 58,
+        "200_yards": 80
+      },
+      "greens_in_regulation": {
+        "overall": 60,
+        "100_125_yards": 73,
+        "125_150_yards": 65,
+        "150_175_yards": 51,
+        "175_200_yards": 38,
+        "200_plus_yards": 22
+      },
+      "short_game": {
+        "sand_save_percentage": 52,
+        "up_and_down_0_25_yards": 62,
+        "up_and_down_25_50_yards": 55,
+        "scrambling_percentage": 57
+      },
+      "putting": {
+        "putts_per_round": 31.5,
+        "one_putts_per_round": 3.9,
+        "three_putts_per_round": 2.4,
+        "make_percentage_3_feet": 94,
+        "make_percentage_6_feet": 72,
+        "make_percentage_10_feet": 42,
+        "make_percentage_15_feet": 22,
+        "make_percentage_20_feet": 13
+      },
+      "course_management": {
+        "fairways_hit": 56,
+        "penalty_strokes_per_round": 2.3,
+        "average_score": 76
+      }
+    },
+    "5": {
+      "handicap": 5,
+      "category": "Low Single Digit",
+      "club_distances": {
+        "driver": 268,
+        "3_wood": 253,
+        "5_wood": 233,
+        "3_iron": 213,
+        "4_iron": 203,
+        "5_iron": 183,
+        "6_iron": 168,
+        "7_iron": 153,
+        "8_iron": 138,
+        "9_iron": 123,
+        "pitching_wedge": 108,
+        "sand_wedge": 93,
+        "lob_wedge": 78
+      },
+      "proximity_to_target": {
+        "50_yards": 14,
+        "75_yards": 20,
+        "100_yards": 30,
+        "125_yards": 40,
+        "150_yards": 52,
+        "175_yards": 62,
+        "200_yards": 85
+      },
+      "greens_in_regulation": {
+        "overall": 57,
+        "100_125_yards": 70,
+        "125_150_yards": 62,
+        "150_175_yards": 48,
+        "175_200_yards": 35,
+        "200_plus_yards": 20
+      },
+      "short_game": {
+        "sand_save_percentage": 48,
+        "up_and_down_0_25_yards": 58,
+        "up_and_down_25_50_yards": 51,
+        "scrambling_percentage": 53
+      },
+      "putting": {
+        "putts_per_round": 32.2,
+        "one_putts_per_round": 3.6,
+        "three_putts_per_round": 2.7,
+        "make_percentage_3_feet": 93,
+        "make_percentage_6_feet": 68,
+        "make_percentage_10_feet": 38,
+        "make_percentage_15_feet": 19,
+        "make_percentage_20_feet": 11
+      },
+      "course_management": {
+        "fairways_hit": 53,
+        "penalty_strokes_per_round": 2.6,
+        "average_score": 77
+      }
+    },
+    "6": {
+      "handicap": 6,
+      "category": "Mid Single Digit",
+      "club_distances": {
+        "driver": 265,
+        "3_wood": 250,
+        "5_wood": 230,
+        "3_iron": 210,
+        "4_iron": 200,
+        "5_iron": 180,
+        "6_iron": 165,
+        "7_iron": 150,
+        "8_iron": 135,
+        "9_iron": 120,
+        "pitching_wedge": 105,
+        "sand_wedge": 90,
+        "lob_wedge": 75
+      },
+      "proximity_to_target": {
+        "50_yards": 16,
+        "75_yards": 22,
+        "100_yards": 33,
+        "125_yards": 44,
+        "150_yards": 56,
+        "175_yards": 68,
+        "200_yards": 92
+      },
+      "greens_in_regulation": {
+        "overall": 54,
+        "100_125_yards": 67,
+        "125_150_yards": 58,
+        "150_175_yards": 44,
+        "175_200_yards": 31,
+        "200_plus_yards": 17
+      },
+      "short_game": {
+        "sand_save_percentage": 45,
+        "up_and_down_0_25_yards": 55,
+        "up_and_down_25_50_yards": 48,
+        "scrambling_percentage": 50
+      },
+      "putting": {
+        "putts_per_round": 33.0,
+        "one_putts_per_round": 3.3,
+        "three_putts_per_round": 3.0,
+        "make_percentage_3_feet": 92,
+        "make_percentage_6_feet": 65,
+        "make_percentage_10_feet": 35,
+        "make_percentage_15_feet": 17,
+        "make_percentage_20_feet": 9
+      },
+      "course_management": {
+        "fairways_hit": 50,
+        "penalty_strokes_per_round": 2.9,
+        "average_score": 78
+      }
+    },
+    "7": {
+      "handicap": 7,
+      "category": "Mid Single Digit",
+      "club_distances": {
+        "driver": 262,
+        "3_wood": 247,
+        "5_wood": 227,
+        "3_iron": 207,
+        "4_iron": 197,
+        "5_iron": 177,
+        "6_iron": 162,
+        "7_iron": 147,
+        "8_iron": 132,
+        "9_iron": 117,
+        "pitching_wedge": 102,
+        "sand_wedge": 87,
+        "lob_wedge": 72
+      },
+      "proximity_to_target": {
+        "50_yards": 18,
+        "75_yards": 25,
+        "100_yards": 36,
+        "125_yards": 48,
+        "150_yards": 60,
+        "175_yards": 74,
+        "200_yards": 98
+      },
+      "greens_in_regulation": {
+        "overall": 51,
+        "100_125_yards": 64,
+        "125_150_yards": 55,
+        "150_175_yards": 41,
+        "175_200_yards": 28,
+        "200_plus_yards": 15
+      },
+      "short_game": {
+        "sand_save_percentage": 42,
+        "up_and_down_0_25_yards": 52,
+        "up_and_down_25_50_yards": 45,
+        "scrambling_percentage": 47
+      },
+      "putting": {
+        "putts_per_round": 33.8,
+        "one_putts_per_round": 3.0,
+        "three_putts_per_round": 3.3,
+        "make_percentage_3_feet": 91,
+        "make_percentage_6_feet": 62,
+        "make_percentage_10_feet": 32,
+        "make_percentage_15_feet": 15,
+        "make_percentage_20_feet": 8
+      },
+      "course_management": {
+        "fairways_hit": 47,
+        "penalty_strokes_per_round": 3.2,
+        "average_score": 79
+      }
+    },
+    "8": {
+      "handicap": 8,
+      "category": "Mid Single Digit",
+      "club_distances": {
+        "driver": 258,
+        "3_wood": 243,
+        "5_wood": 223,
+        "3_iron": 203,
+        "4_iron": 193,
+        "5_iron": 173,
+        "6_iron": 158,
+        "7_iron": 143,
+        "8_iron": 128,
+        "9_iron": 113,
+        "pitching_wedge": 98,
+        "sand_wedge": 83,
+        "lob_wedge": 68
+      },
+      "proximity_to_target": {
+        "50_yards": 20,
+        "75_yards": 28,
+        "100_yards": 40,
+        "125_yards": 52,
+        "150_yards": 65,
+        "175_yards": 80,
+        "200_yards": 105
+      },
+      "greens_in_regulation": {
+        "overall": 48,
+        "100_125_yards": 61,
+        "125_150_yards": 52,
+        "150_175_yards": 38,
+        "175_200_yards": 25,
+        "200_plus_yards": 13
+      },
+      "short_game": {
+        "sand_save_percentage": 38,
+        "up_and_down_0_25_yards": 48,
+        "up_and_down_25_50_yards": 41,
+        "scrambling_percentage": 43
+      },
+      "putting": {
+        "putts_per_round": 34.6,
+        "one_putts_per_round": 2.7,
+        "three_putts_per_round": 3.6,
+        "make_percentage_3_feet": 90,
+        "make_percentage_6_feet": 58,
+        "make_percentage_10_feet": 28,
+        "make_percentage_15_feet": 13,
+        "make_percentage_20_feet": 6
+      },
+      "course_management": {
+        "fairways_hit": 44,
+        "penalty_strokes_per_round": 3.5,
+        "average_score": 80
+      }
+    },
+    "9": {
+      "handicap": 9,
+      "category": "High Single Digit",
+      "club_distances": {
+        "driver": 255,
+        "3_wood": 240,
+        "5_wood": 220,
+        "3_iron": 200,
+        "4_iron": 190,
+        "5_iron": 170,
+        "6_iron": 155,
+        "7_iron": 140,
+        "8_iron": 125,
+        "9_iron": 110,
+        "pitching_wedge": 95,
+        "sand_wedge": 80,
+        "lob_wedge": 65
+      },
+      "proximity_to_target": {
+        "50_yards": 22,
+        "75_yards": 31,
+        "100_yards": 44,
+        "125_yards": 56,
+        "150_yards": 70,
+        "175_yards": 86,
+        "200_yards": 112
+      },
+      "greens_in_regulation": {
+        "overall": 45,
+        "100_125_yards": 58,
+        "125_150_yards": 49,
+        "150_175_yards": 35,
+        "175_200_yards": 22,
+        "200_plus_yards": 11
+      },
+      "short_game": {
+        "sand_save_percentage": 35,
+        "up_and_down_0_25_yards": 45,
+        "up_and_down_25_50_yards": 38,
+        "scrambling_percentage": 40
+      },
+      "putting": {
+        "putts_per_round": 35.4,
+        "one_putts_per_round": 2.4,
+        "three_putts_per_round": 3.9,
+        "make_percentage_3_feet": 88,
+        "make_percentage_6_feet": 55,
+        "make_percentage_10_feet": 25,
+        "make_percentage_15_feet": 11,
+        "make_percentage_20_feet": 5
+      },
+      "course_management": {
+        "fairways_hit": 41,
+        "penalty_strokes_per_round": 3.8,
+        "average_score": 81
+      }
+    },
+    "10": {
+      "handicap": 10,
+      "category": "Low Double Digit",
+      "club_distances": {
+        "driver": 250,
+        "3_wood": 235,
+        "5_wood": 215,
+        "3_iron": 195,
+        "4_iron": 185,
+        "5_iron": 165,
+        "6_iron": 150,
+        "7_iron": 135,
+        "8_iron": 120,
+        "9_iron": 105,
+        "pitching_wedge": 90,
+        "sand_wedge": 75,
+        "lob_wedge": 60
+      },
+      "proximity_to_target": {
+        "50_yards": 25,
+        "75_yards": 35,
+        "100_yards": 48,
+        "125_yards": 62,
+        "150_yards": 78,
+        "175_yards": 95,
+        "200_yards": 125
+      },
+      "greens_in_regulation": {
+        "overall": 42,
+        "100_125_yards": 55,
+        "125_150_yards": 46,
+        "150_175_yards": 32,
+        "175_200_yards": 19,
+        "200_plus_yards": 9
+      },
+      "short_game": {
+        "sand_save_percentage": 32,
+        "up_and_down_0_25_yards": 42,
+        "up_and_down_25_50_yards": 35,
+        "scrambling_percentage": 37
+      },
+      "putting": {
+        "putts_per_round": 36.2,
+        "one_putts_per_round": 2.1,
+        "three_putts_per_round": 4.2,
+        "make_percentage_3_feet": 86,
+        "make_percentage_6_feet": 51,
+        "make_percentage_10_feet": 22,
+        "make_percentage_15_feet": 9,
+        "make_percentage_20_feet": 4
+      },
+      "course_management": {
+        "fairways_hit": 38,
+        "penalty_strokes_per_round": 4.1,
+        "average_score": 82
+      }
+    },
+    "11": {
+      "handicap": 11,
+      "category": "Low Double Digit",
+      "club_distances": {
+        "driver": 247,
+        "3_wood": 232,
+        "5_wood": 212,
+        "3_iron": 192,
+        "4_iron": 182,
+        "5_iron": 162,
+        "6_iron": 147,
+        "7_iron": 132,
+        "8_iron": 117,
+        "9_iron": 102,
+        "pitching_wedge": 87,
+        "sand_wedge": 72,
+        "lob_wedge": 57
+      },
+      "proximity_to_target": {
+        "50_yards": 28,
+        "75_yards": 38,
+        "100_yards": 52,
+        "125_yards": 68,
+        "150_yards": 85,
+        "175_yards": 105,
+        "200_yards": 135
+      },
+      "greens_in_regulation": {
+        "overall": 39,
+        "100_125_yards": 52,
+        "125_150_yards": 43,
+        "150_175_yards": 29,
+        "175_200_yards": 16,
+        "200_plus_yards": 7
+      },
+      "short_game": {
+        "sand_save_percentage": 29,
+        "up_and_down_0_25_yards": 39,
+        "up_and_down_25_50_yards": 32,
+        "scrambling_percentage": 34
+      },
+      "putting": {
+        "putts_per_round": 37.0,
+        "one_putts_per_round": 1.8,
+        "three_putts_per_round": 4.5,
+        "make_percentage_3_feet": 84,
+        "make_percentage_6_feet": 48,
+        "make_percentage_10_feet": 19,
+        "make_percentage_15_feet": 7,
+        "make_percentage_20_feet": 3
+      },
+      "course_management": {
+        "fairways_hit": 35,
+        "penalty_strokes_per_round": 4.4,
+        "average_score": 83
+      }
+    },
+    "12": {
+      "handicap": 12,
+      "category": "Low Double Digit",
+      "club_distances": {
+        "driver": 244,
+        "3_wood": 229,
+        "5_wood": 209,
+        "3_iron": 189,
+        "4_iron": 179,
+        "5_iron": 159,
+        "6_iron": 144,
+        "7_iron": 129,
+        "8_iron": 114,
+        "9_iron": 99,
+        "pitching_wedge": 84,
+        "sand_wedge": 69,
+        "lob_wedge": 54
+      },
+      "proximity_to_target": {
+        "50_yards": 31,
+        "75_yards": 42,
+        "100_yards": 56,
+        "125_yards": 74,
+        "150_yards": 92,
+        "175_yards": 115,
+        "200_yards": 145
+      },
+      "greens_in_regulation": {
+        "overall": 36,
+        "100_125_yards": 49,
+        "125_150_yards": 40,
+        "150_175_yards": 26,
+        "175_200_yards": 13,
+        "200_plus_yards": 5
+      },
+      "short_game": {
+        "sand_save_percentage": 26,
+        "up_and_down_0_25_yards": 36,
+        "up_and_down_25_50_yards": 29,
+        "scrambling_percentage": 31
+      },
+      "putting": {
+        "putts_per_round": 37.8,
+        "one_putts_per_round": 1.5,
+        "three_putts_per_round": 4.8,
+        "make_percentage_3_feet": 82,
+        "make_percentage_6_feet": 45,
+        "make_percentage_10_feet": 16,
+        "make_percentage_15_feet": 6,
+        "make_percentage_20_feet": 2
+      },
+      "course_management": {
+        "fairways_hit": 32,
+        "penalty_strokes_per_round": 4.7,
+        "average_score": 84
+      }
+    },
+    "13": {
+      "handicap": 13,
+      "category": "Mid Double Digit",
+      "club_distances": {
+        "driver": 241,
+        "3_wood": 226,
+        "5_wood": 206,
+        "3_iron": 186,
+        "4_iron": 176,
+        "5_iron": 156,
+        "6_iron": 141,
+        "7_iron": 126,
+        "8_iron": 111,
+        "9_iron": 96,
+        "pitching_wedge": 81,
+        "sand_wedge": 66,
+        "lob_wedge": 51
+      },
+      "proximity_to_target": {
+        "50_yards": 34,
+        "75_yards": 46,
+        "100_yards": 62,
+        "125_yards": 80,
+        "150_yards": 100,
+        "175_yards": 125,
+        "200_yards": 155
+      },
+      "greens_in_regulation": {
+        "overall": 33,
+        "100_125_yards": 46,
+        "125_150_yards": 37,
+        "150_175_yards": 23,
+        "175_200_yards": 11,
+        "200_plus_yards": 4
+      },
+      "short_game": {
+        "sand_save_percentage": 23,
+        "up_and_down_0_25_yards": 33,
+        "up_and_down_25_50_yards": 26,
+        "scrambling_percentage": 28
+      },
+      "putting": {
+        "putts_per_round": 38.6,
+        "one_putts_per_round": 1.2,
+        "three_putts_per_round": 5.1,
+        "make_percentage_3_feet": 80,
+        "make_percentage_6_feet": 42,
+        "make_percentage_10_feet": 14,
+        "make_percentage_15_feet": 5,
+        "make_percentage_20_feet": 2
+      },
+      "course_management": {
+        "fairways_hit": 29,
+        "penalty_strokes_per_round": 5.0,
+        "average_score": 85
+      }
+    },
+    "14": {
+      "handicap": 14,
+      "category": "Mid Double Digit",
+      "club_distances": {
+        "driver": 238,
+        "3_wood": 223,
+        "5_wood": 203,
+        "3_iron": 183,
+        "4_iron": 173,
+        "5_iron": 153,
+        "6_iron": 138,
+        "7_iron": 123,
+        "8_iron": 108,
+        "9_iron": 93,
+        "pitching_wedge": 78,
+        "sand_wedge": 63,
+        "lob_wedge": 48
+      },
+      "proximity_to_target": {
+        "50_yards": 37,
+        "75_yards": 50,
+        "100_yards": 68,
+        "125_yards": 86,
+        "150_yards": 108,
+        "175_yards": 135,
+        "200_yards": 165
+      },
+      "greens_in_regulation": {
+        "overall": 30,
+        "100_125_yards": 43,
+        "125_150_yards": 34,
+        "150_175_yards": 20,
+        "175_200_yards": 9,
+        "200_plus_yards": 3
+      },
+      "short_game": {
+        "sand_save_percentage": 20,
+        "up_and_down_0_25_yards": 30,
+        "up_and_down_25_50_yards": 23,
+        "scrambling_percentage": 25
+      },
+      "putting": {
+        "putts_per_round": 39.4,
+        "one_putts_per_round": 0.9,
+        "three_putts_per_round": 5.4,
+        "make_percentage_3_feet": 78,
+        "make_percentage_6_feet": 39,
+        "make_percentage_10_feet": 12,
+        "make_percentage_15_feet": 4,
+        "make_percentage_20_feet": 1
+      },
+      "course_management": {
+        "fairways_hit": 26,
+        "penalty_strokes_per_round": 5.3,
+        "average_score": 86
+      }
+    },
+    "15": {
+      "handicap": 15,
+      "category": "Mid Double Digit",
+      "club_distances": {
+        "driver": 235,
+        "3_wood": 220,
+        "5_wood": 200,
+        "3_iron": 180,
+        "4_iron": 170,
+        "5_iron": 150,
+        "6_iron": 135,
+        "7_iron": 120,
+        "8_iron": 105,
+        "9_iron": 90,
+        "pitching_wedge": 75,
+        "sand_wedge": 60,
+        "lob_wedge": 45
+      },
+      "proximity_to_target": {
+        "50_yards": 40,
+        "75_yards": 54,
+        "100_yards": 74,
+        "125_yards": 92,
+        "150_yards": 116,
+        "175_yards": 145,
+        "200_yards": 175
+      },
+      "greens_in_regulation": {
+        "overall": 27,
+        "100_125_yards": 40,
+        "125_150_yards": 31,
+        "150_175_yards": 17,
+        "175_200_yards": 7,
+        "200_plus_yards": 2
+      },
+      "short_game": {
+        "sand_save_percentage": 17,
+        "up_and_down_0_25_yards": 27,
+        "up_and_down_25_50_yards": 20,
+        "scrambling_percentage": 22
+      },
+      "putting": {
+        "putts_per_round": 40.2,
+        "one_putts_per_round": 0.6,
+        "three_putts_per_round": 5.7,
+        "make_percentage_3_feet": 76,
+        "make_percentage_6_feet": 36,
+        "make_percentage_10_feet": 10,
+        "make_percentage_15_feet": 3,
+        "make_percentage_20_feet": 1
+      },
+      "course_management": {
+        "fairways_hit": 23,
+        "penalty_strokes_per_round": 5.6,
+        "average_score": 87
+      }
+    },
+    "16": {
+      "handicap": 16,
+      "category": "High Double Digit",
+      "club_distances": {
+        "driver": 232,
+        "3_wood": 217,
+        "5_wood": 197,
+        "3_iron": 177,
+        "4_iron": 167,
+        "5_iron": 147,
+        "6_iron": 132,
+        "7_iron": 117,
+        "8_iron": 102,
+        "9_iron": 87,
+        "pitching_wedge": 72,
+        "sand_wedge": 57,
+        "lob_wedge": 42
+      },
+      "proximity_to_target": {
+        "50_yards": 43,
+        "75_yards": 58,
+        "100_yards": 80,
+        "125_yards": 98,
+        "150_yards": 124,
+        "175_yards": 155,
+        "200_yards": 185
+      },
+      "greens_in_regulation": {
+        "overall": 24,
+        "100_125_yards": 37,
+        "125_150_yards": 28,
+        "150_175_yards": 15,
+        "175_200_yards": 6,
+        "200_plus_yards": 2
+      },
+      "short_game": {
+        "sand_save_percentage": 15,
+        "up_and_down_0_25_yards": 24,
+        "up_and_down_25_50_yards": 17,
+        "scrambling_percentage": 19
+      },
+      "putting": {
+        "putts_per_round": 41.0,
+        "one_putts_per_round": 0.4,
+        "three_putts_per_round": 6.0,
+        "make_percentage_3_feet": 74,
+        "make_percentage_6_feet": 33,
+        "make_percentage_10_feet": 8,
+        "make_percentage_15_feet": 2,
+        "make_percentage_20_feet": 1
+      },
+      "course_management": {
+        "fairways_hit": 20,
+        "penalty_strokes_per_round": 5.9,
+        "average_score": 88
+      }
+    },
+    "17": {
+      "handicap": 17,
+      "category": "High Double Digit",
+      "club_distances": {
+        "driver": 229,
+        "3_wood": 214,
+        "5_wood": 194,
+        "3_iron": 174,
+        "4_iron": 164,
+        "5_iron": 144,
+        "6_iron": 129,
+        "7_iron": 114,
+        "8_iron": 99,
+        "9_iron": 84,
+        "pitching_wedge": 69,
+        "sand_wedge": 54,
+        "lob_wedge": 39
+      },
+      "proximity_to_target": {
+        "50_yards": 46,
+        "75_yards": 62,
+        "100_yards": 86,
+        "125_yards": 104,
+        "150_yards": 132,
+        "175_yards": 165,
+        "200_yards": 195
+      },
+      "greens_in_regulation": {
+        "overall": 21,
+        "100_125_yards": 34,
+        "125_150_yards": 25,
+        "150_175_yards": 13,
+        "175_200_yards": 5,
+        "200_plus_yards": 1
+      },
+      "short_game": {
+        "sand_save_percentage": 13,
+        "up_and_down_0_25_yards": 21,
+        "up_and_down_25_50_yards": 14,
+        "scrambling_percentage": 16
+      },
+      "putting": {
+        "putts_per_round": 41.8,
+        "one_putts_per_round": 0.2,
+        "three_putts_per_round": 6.3,
+        "make_percentage_3_feet": 72,
+        "make_percentage_6_feet": 30,
+        "make_percentage_10_feet": 6,
+        "make_percentage_15_feet": 2,
+        "make_percentage_20_feet": 0
+      },
+      "course_management": {
+        "fairways_hit": 17,
+        "penalty_strokes_per_round": 6.2,
+        "average_score": 89
+      }
+    },
+    "18": {
+      "handicap": 18,
+      "category": "High Double Digit",
+      "club_distances": {
+        "driver": 225,
+        "3_wood": 210,
+        "5_wood": 190,
+        "3_iron": 170,
+        "4_iron": 160,
+        "5_iron": 140,
+        "6_iron": 125,
+        "7_iron": 110,
+        "8_iron": 95,
+        "9_iron": 80,
+        "pitching_wedge": 65,
+        "sand_wedge": 50,
+        "lob_wedge": 35
+      },
+      "proximity_to_target": {
+        "50_yards": 50,
+        "75_yards": 68,
+        "100_yards": 94,
+        "125_yards": 112,
+        "150_yards": 142,
+        "175_yards": 178,
+        "200_yards": 210
+      },
+      "greens_in_regulation": {
+        "overall": 18,
+        "100_125_yards": 30,
+        "125_150_yards": 21,
+        "150_175_yards": 10,
+        "175_200_yards": 4,
+        "200_plus_yards": 1
+      },
+      "short_game": {
+        "sand_save_percentage": 11,
+        "up_and_down_0_25_yards": 18,
+        "up_and_down_25_50_yards": 11,
+        "scrambling_percentage": 13
+      },
+      "putting": {
+        "putts_per_round": 42.6,
+        "one_putts_per_round": 0.1,
+        "three_putts_per_round": 6.6,
+        "make_percentage_3_feet": 70,
+        "make_percentage_6_feet": 27,
+        "make_percentage_10_feet": 5,
+        "make_percentage_15_feet": 1,
+        "make_percentage_20_feet": 0
+      },
+      "course_management": {
+        "fairways_hit": 15,
+        "penalty_strokes_per_round": 6.5,
+        "average_score": 90
+      }
+    },
+    "19": {
+      "handicap": 19,
+      "category": "High Double Digit",
+      "club_distances": {
+        "driver": 222,
+        "3_wood": 207,
+        "5_wood": 187,
+        "3_iron": 167,
+        "4_iron": 157,
+        "5_iron": 137,
+        "6_iron": 122,
+        "7_iron": 107,
+        "8_iron": 92,
+        "9_iron": 77,
+        "pitching_wedge": 62,
+        "sand_wedge": 47,
+        "lob_wedge": 32
+      },
+      "proximity_to_target": {
+        "50_yards": 54,
+        "75_yards": 74,
+        "100_yards": 102,
+        "125_yards": 120,
+        "150_yards": 152,
+        "175_yards": 188,
+        "200_yards": 225
+      },
+      "greens_in_regulation": {
+        "overall": 15,
+        "100_125_yards": 27,
+        "125_150_yards": 18,
+        "150_175_yards": 8,
+        "175_200_yards": 3,
+        "200_plus_yards": 1
+      },
+      "short_game": {
+        "sand_save_percentage": 9,
+        "up_and_down_0_25_yards": 15,
+        "up_and_down_25_50_yards": 8,
+        "scrambling_percentage": 10
+      },
+      "putting": {
+        "putts_per_round": 43.4,
+        "one_putts_per_round": 0.1,
+        "three_putts_per_round": 6.9,
+        "make_percentage_3_feet": 68,
+        "make_percentage_6_feet": 24,
+        "make_percentage_10_feet": 4,
+        "make_percentage_15_feet": 1,
+        "make_percentage_20_feet": 0
+      },
+      "course_management": {
+        "fairways_hit": 12,
+        "penalty_strokes_per_round": 6.8,
+        "average_score": 91
+      }
+    },
+    "20": {
+      "handicap": 20,
+      "category": "High Handicap",
+      "club_distances": {
+        "driver": 218,
+        "3_wood": 203,
+        "5_wood": 183,
+        "3_iron": 163,
+        "4_iron": 153,
+        "5_iron": 133,
+        "6_iron": 118,
+        "7_iron": 103,
+        "8_iron": 88,
+        "9_iron": 73,
+        "pitching_wedge": 58,
+        "sand_wedge": 43,
+        "lob_wedge": 28
+      },
+      "proximity_to_target": {
+        "50_yards": 58,
+        "75_yards": 80,
+        "100_yards": 110,
+        "125_yards": 128,
+        "150_yards": 162,
+        "175_yards": 198,
+        "200_yards": 240
+      },
+      "greens_in_regulation": {
+        "overall": 12,
+        "100_125_yards": 24,
+        "125_150_yards": 15,
+        "150_175_yards": 6,
+        "175_200_yards": 2,
+        "200_plus_yards": 0
+      },
+      "short_game": {
+        "sand_save_percentage": 7,
+        "up_and_down_0_25_yards": 12,
+        "up_and_down_25_50_yards": 5,
+        "scrambling_percentage": 7
+      },
+      "putting": {
+        "putts_per_round": 44.2,
+        "one_putts_per_round": 0.0,
+        "three_putts_per_round": 7.2,
+        "make_percentage_3_feet": 66,
+        "make_percentage_6_feet": 21,
+        "make_percentage_10_feet": 3,
+        "make_percentage_15_feet": 0,
+        "make_percentage_20_feet": 0
+      },
+      "course_management": {
+        "fairways_hit": 10,
+        "penalty_strokes_per_round": 7.1,
+        "average_score": 92
+      }
+    }
+  }
+}
