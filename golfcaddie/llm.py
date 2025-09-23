@@ -68,9 +68,11 @@ def build_prompt(
         "- SHORT SIDE IS DEATH: Avoid short-sided positions around greens\n"
         "- WHEN IN DOUBT, TAKE MORE CLUB and aim for center of target\n"
         + humor_hint +
-        "Response Format:\n"
-        "1) Smart club choice + target + course management reason\n"
-        "2) One witty comment about playing percentages or avoiding trouble\n\n"
+        "Response Format (VOICE-FRIENDLY - no numbers, bullets, or formatting):\n"
+        "Give a natural spoken recommendation in 2-3 sentences. Include:\n"
+        "- Club choice and target with course management reasoning\n"
+        "- One brief witty comment about smart play\n"
+        "Keep it conversational and smooth for text-to-speech playback.\n\n"
         + conditions_block + hole_block + stats_block +
         f"Transcript: {transcript}\n"
         f"Handicap: {'Unknown - ASK FOR IT!' if handicap is None else handicap}\n"

@@ -284,10 +284,10 @@ def listen(api_key: Optional[str], mock: bool, language: str,
             # Process final transcripts automatically
             asyncio.create_task(process_transcript_automatically(text))
         else:
-            # Just show interim transcripts
+            # Just show interim transcripts with proper clearing
             if text.strip():
-                click.echo(f"🎤 Listening: {text}", nl=False)
-                click.echo("\r", nl=False)
+                # Clear previous line and show current interim transcript
+                click.echo(f"\r🎤 Listening: {text:<80}", nl=False)
 
     # Create Pipecat pipeline configuration
     config = PipelineConfig(

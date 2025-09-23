@@ -107,14 +107,27 @@ def _extract_club_mention(text_l: str) -> Optional[str]:
 
 def _extract_handicap_mention(text_l: str) -> Optional[int]:
     """Extract handicap mentions from text."""
-    # Handicap patterns to look for
+    # Word to number mapping for spoken numbers
+    word_to_num = {
+        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,
+        'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
+        'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14, 'fifteen': 15,
+        'sixteen': 16, 'seventeen': 17, 'eighteen': 18, 'nineteen': 19, 'twenty': 20,
+        'scratch': 0
+    }
+    
+    # Handicap patterns - both digits and words
     handicap_patterns = [
         r"\bi'?m\s+a\s+(\d{1,2})\s+handicap\b",
+        r"\bi'?m\s+a\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)\s+handicap\b",
         r"\bmy\s+handicap\s+is\s+(\d{1,2})\b",
+        r"\bmy\s+handicap\s+is\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)\b",
         r"\b(\d{1,2})\s+handicap\s+player\b",
         r"\bhandicap\s+(\d{1,2})\b",
+        r"\bhandicap\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)\b",
         r"\bi\s+play\s+to\s+a?\s+(\d{1,2})\b",
         r"\bi'?m\s+a\s+(\d{1,2})\b",  # Less specific but common
+        r"\bi'?m\s+a\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)\b",
         r"\bscratch\s+golfer\b",  # Special case for scratch
         r"\bscratch\s+player\b",
     ]
@@ -125,7 +138,13 @@ def _extract_handicap_mention(text_l: str) -> Optional[int]:
             if "scratch" in pattern:
                 return 0
             try:
-                handicap = int(match.group(1))
+                matched_text = match.group(1)
+                # Try to convert word to number first
+                if matched_text in word_to_num:
+                    handicap = word_to_num[matched_text]
+                else:
+                    # Fall back to digit parsing
+                    handicap = int(matched_text)
                 # Clamp to reasonable range
                 return max(0, min(30, handicap))
             except (ValueError, IndexError):
