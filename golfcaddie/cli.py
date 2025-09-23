@@ -15,8 +15,16 @@ from .parser import parse_intent
 
 
 def _detect_intent(text: str) -> str:
-    """Return 'weather' if clearly asking about weather/conditions; otherwise 'shot'."""
+    """Return 'weather', 'shot', or 'unknown' based on the query content."""
     l = text.lower()
+    
+    # Golf-specific keywords and phrases
+    golf_keywords = [
+        "golf", "course", "hole", "tee", "green", "fairway", "rough", "bunker", "sand trap",
+        "par", "birdie", "eagle", "bogey", "handicap", "stroke", "putt", "chip", "pitch",
+        "iron", "wood", "driver", "wedge", "putter", "yards", "distance", "pin", "flag"
+    ]
+    
     # Shot intent keywords/phrases - be more specific to avoid false positives
     shot_keys = [
         "what club",
@@ -50,11 +58,17 @@ def _detect_intent(text: str) -> str:
         r"\b(today|now).*\b(conditions|weather|wind)\b",
     ]
     has_weather_q = any(re.search(p, l) for p in weather_q_patterns)
+    
+    # Check if query contains golf-related content
+    has_golf_context = any(keyword in l for keyword in golf_keywords)
 
     if has_weather_q and not has_shot:
         return "weather"
-    # Default to shot guidance when ambiguous or both are present
-    return "shot"
+    elif has_shot or has_golf_context:
+        return "shot"
+    else:
+        # Query doesn't contain golf or weather context
+        return "unknown"
 
 
 @click.group()
@@ -200,6 +214,17 @@ def listen(api_key: Optional[str], mock: bool, language: str,
                 except Exception as e:
                     click.echo(f"Weather error: {e}", err=True)
                     return
+            
+            # Handle non-golf/weather queries with a helpful fallback message
+            if intent == "unknown":
+                fallback_message = (
+                    "Sorry, I didn't understand that. I'm a golf caddie assistant designed to help with golf shots and course conditions. "
+                    "Please ask me questions like 'What club should I use for 150 yards?' or 'What are the current wind conditions?'"
+                )
+                click.echo(f"🤖 Fallback: {fallback_message}")
+                await pipe.speak(fallback_message)
+                click.echo("🎧 Ready for next question...")
+                return
 
             coords = listen._session_cache.get("coords")  # type: ignore[attr-defined]
             conds = listen._session_cache.get("conditions")  # type: ignore[attr-defined]
