@@ -86,7 +86,7 @@ class PipecatGolfPipeline:
         
     async def _create_pipeline(self) -> Pipeline:
         """Create and configure the Pipecat pipeline."""
-        print("[PIPELINE_CREATE] Starting pipeline creation...")
+        logger.info("[PIPELINE_CREATE] Starting pipeline creation...")
         
         # Create InputParams for STT service (fixes deprecation warning)
         from pipecat.services.speechmatics.stt import SpeechmaticsSTTService
@@ -137,9 +137,9 @@ class PipecatGolfPipeline:
         )
         
         # Install transcript hook immediately after STT service is created
-        print(f"[PRE_HOOK] About to install hook. Callback: {self._on_transcript}, STT service: {self._stt_service}")
+        logger.info(f"[PRE_HOOK] About to install hook. Callback: {self._on_transcript}, STT service: {self._stt_service}")
         self._install_transcript_hook()
-        print("[POST_HOOK] Hook installation completed")
+        logger.info("[POST_HOOK] Hook installation completed")
         
         # Build pipeline (STT only, TTS handled separately)
         # For now, use pipeline without custom processor to avoid frame lifecycle issues
@@ -152,22 +152,22 @@ class PipecatGolfPipeline:
     
     def _install_transcript_hook(self):
         """Install the transcript hook after pipeline creation."""
-        print(f"[DEBUG] Installing hook, callback: {self._on_transcript}")
+        logger.info(f"[DEBUG] Installing hook, callback: {self._on_transcript}")
         if self._on_transcript and self._stt_service:
-            print("[SETUP] Installing _send_frames hook...")
+            logger.info("[SETUP] Installing _send_frames hook...")
             original_send_frames = self._stt_service._send_frames
             
             def hooked_send_frames(frames):
-                print(f"[DIRECT_HOOK] _send_frames called with {len(frames)} frames")
+                logger.info(f"[DIRECT_HOOK] _send_frames called with {len(frames)} frames")
                 
                 # Process frames to extract transcripts
                 for frame in frames:
-                    print(f"[DIRECT_HOOK] Frame type: {type(frame).__name__}")
+                    logger.info(f"[DIRECT_HOOK] Frame type: {type(frame).__name__}")
                     if hasattr(frame, 'text') and frame.text:
-                        print(f"[DIRECT_HOOK] Found transcript: '{frame.text}'")
+                        logger.info(f"[DIRECT_HOOK] Found transcript: '{frame.text}'")
                         # Check if it's a final transcript
                         is_final = type(frame).__name__ == 'TranscriptionFrame'
-                        print(f"[DIRECT_HOOK] Calling callback: is_final={is_final}")
+                        logger.info(f"[DIRECT_HOOK] Calling callback: is_final={is_final}")
                         self._on_transcript(frame.text, is_final)
                 
                 # Call the original method
@@ -175,13 +175,13 @@ class PipecatGolfPipeline:
             
             # Replace the method
             self._stt_service._send_frames = hooked_send_frames
-            print("[SETUP] Successfully hooked into _send_frames method")
+            logger.info("[SETUP] Successfully hooked into _send_frames method")
         else:
-            print("[SETUP] No transcript callback or STT service, skipping hook")
+            logger.info("[SETUP] No transcript callback or STT service, skipping hook")
         
     async def start(self):
         """Start the pipeline."""
-        print("[START_METHOD] Pipeline start() method called")
+        logger.info("[START_METHOD] Pipeline start() method called")
         if self._runner is not None:
             logger.warning("Pipeline already running")
             return

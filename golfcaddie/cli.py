@@ -275,7 +275,9 @@ def listen(api_key: Optional[str], mock: bool, language: str,
     async def run_pipeline():
         """Run the Pipecat pipeline asynchronously."""
         try:
+            print(f"[CLI] About to call pipe.start() on {type(pipe).__name__}")
             await pipe.start()
+            print("[CLI] pipe.start() completed")
             
             # Simple loop - let Pipecat handle STT, provide manual input option
             while True:
