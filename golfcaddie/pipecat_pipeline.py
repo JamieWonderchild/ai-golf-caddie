@@ -182,11 +182,13 @@ class PipecatGolfPipeline:
         try:
             pipeline = await self._create_pipeline()
             
-            # Install the transcript hook AFTER pipeline creation but BEFORE starting
-            self._install_transcript_hook()
-            
             self._task = PipelineTask(pipeline)
             self._runner = PipelineRunner()
+            
+            # Install the transcript hook AFTER pipeline creation but BEFORE starting
+            print(f"[PRE_HOOK] About to install hook. Callback: {self._on_transcript}, STT service: {self._stt_service}")
+            self._install_transcript_hook()
+            print("[POST_HOOK] Hook installation completed")
             
             logger.info("Starting Pipecat pipeline with Speechmatics STT/TTS")
             await self._runner.run(self._task)
