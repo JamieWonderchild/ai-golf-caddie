@@ -88,23 +88,11 @@ class PipecatGolfPipeline:
         """Create and configure the Pipecat pipeline."""
         logger.info("[PIPELINE_CREATE] Starting pipeline creation...")
         
-        # Create InputParams for STT service (fixes deprecation warning)
-        from pipecat.services.speechmatics.stt import SpeechmaticsSTTService
-        
-        # Create input parameters with proper language configuration
-        input_params = SpeechmaticsSTTService.InputParams(
-            language=self.config.language,
-            enable_partials=True,  # Enable partial transcriptions for real-time feedback
-            enable_vad=False,  # Disable VAD since we handle audio transport separately
-            max_delay=1.0,  # Maximum delay for transcription
-            end_of_utterance_silence_trigger=0.5,  # Silence trigger duration
-        )
-        
-        # Create STT service with proper parameters
+        # Create STT service with simple configuration (revert complex InputParams)
         self._stt_service = SpeechmaticsSTTService(
             api_key=self.config.api_key,
             sample_rate=self.config.sample_rate,
-            params=input_params,
+            # Use minimal parameters that were working before
         )
         
         
