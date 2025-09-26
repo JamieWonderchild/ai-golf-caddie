@@ -69,7 +69,7 @@ def build_prompt(
         "- WHEN IN DOUBT, TAKE MORE CLUB and aim for center of target\n"
         + humor_hint +
         "Response Format (VOICE-FRIENDLY - no numbers, bullets, or formatting):\n"
-        "Give a natural spoken recommendation in 2-3 sentences. Include:\n"
+        "Give a natural spoken recommendation in 2 sentences maximum. Include:\n"
         "- Club choice and target with course management reasoning\n"
         "- One brief witty comment about smart play\n"
         "Keep it conversational and smooth for text-to-speech playback.\n\n"
