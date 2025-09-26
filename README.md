@@ -58,7 +58,7 @@ A voice-powered golf caddie that uses **Pipecat with Speechmatics** real-time Sp
 
 **Live voice interaction**:
 ```bash
-python -m golfcaddie.cli listen --handicap=20 --lat=51.5074 --lon=-0.1278 --bearing=0
+python -m golfcaddie.cli listen
 ```
 
 **Check weather**:
