@@ -68,23 +68,52 @@ def speak(
             resp = client.post(tts_url, headers={"Authorization": f"Bearer {api_key}"}, json=payload)
             resp.raise_for_status()
 
-            # Quickstart says: raw PCM float32 little-endian at 16 kHz mono
+            # API returns WAV format, not raw PCM as documented
             raw_audio = resp.content
+            content_type = resp.headers.get('content-type', '')
             if os.getenv("GC_DEBUG"):
-                print(f"[TTS] HTTP {resp.status_code} content-type={resp.headers.get('content-type')} bytes={len(raw_audio)}")
+                print(f"[TTS] HTTP {resp.status_code} content-type={content_type} bytes={len(raw_audio)}")
             if sd is None:  # pragma: no cover
                 print("Speechmatics TTS: sounddevice not available; printing text:")
                 print(text)
                 return
 
-            float_samples = np.frombuffer(raw_audio, dtype='<f4')
+            # Parse WAV file directly from response
+            if content_type == 'audio/wav':
+                # Write to temporary file and read with wave library
+                fd, wav_temp_path = tempfile.mkstemp(suffix=".wav")
+                try:
+                    os.write(fd, raw_audio)
+                    os.close(fd)
+                    
+                    with wave.open(wav_temp_path, 'rb') as wf:
+                        frames = wf.readframes(wf.getnframes())
+                        sample_rate = wf.getframerate()
+                        sample_width = wf.getsampwidth()
+                        
+                        if sample_width == 2:  # 16-bit
+                            int16_samples = np.frombuffer(frames, dtype='<i2')
+                            float_samples = int16_samples.astype(np.float32) / 32767.0
+                        else:  # fallback
+                            float_samples = np.frombuffer(frames, dtype='<f4')
+                finally:
+                    try:
+                        os.unlink(wav_temp_path)
+                    except:
+                        pass
+            else:
+                # Fallback: try parsing as raw PCM
+                float_samples = np.frombuffer(raw_audio, dtype='<f4')
+                float_samples = np.nan_to_num(float_samples, nan=0.0, posinf=0.0, neginf=0.0)
+            
             # Debug: short confirmation of playback parameters
             print(f"[TTS] url={tts_url} bytes={len(raw_audio)} samples={len(float_samples)} sr={sample_rate}")
 
-            # Only save WAV if replay is requested; otherwise avoid leaving files around
+            # Save WAV file for debugging and optional replay
             wav_path = None
             want_replay = bool(os.getenv("GC_TTS_REPLAY"))
-            if want_replay:
+            # Always save WAV file for debugging audio issues
+            if True:
                 try:
                     int16_samples = (np.clip(float_samples, -1.0, 1.0) * 32767).astype(np.int16)
                     fd, tmp_path = tempfile.mkstemp(prefix="golfcaddie_tts_", suffix=".wav")
@@ -100,9 +129,20 @@ def speak(
                 except Exception as wav_err:
                     print(f"[TTS] Could not save WAV for replay: {wav_err}")
 
-            # Attempt playback
+            # Attempt playback with explicit device selection
             try:
-                sd.play(float_samples, samplerate=sample_rate)
+                # Try Pipewire first (device 16), fallback to default
+                output_device = None
+                try:
+                    devices = sd.query_devices()
+                    for i, device in enumerate(devices):
+                        if 'pipewire' in device['name'].lower():
+                            output_device = i
+                            break
+                except Exception:
+                    pass
+                
+                sd.play(float_samples, samplerate=sample_rate, device=output_device)
                 sd.wait()
             except Exception as play_err:
                 print(f"[TTS] Playback error: {play_err}. Saving WAV for manual playback.")
@@ -130,7 +170,17 @@ def speak(
                             ans = input("Replay audio? [y/N]: ").strip().lower()
                             if ans in ("y", "yes"):
                                 try:
-                                    sd.play(float_samples, samplerate=sample_rate)
+                                    # Use same device selection logic for replay
+                                    output_device = None
+                                    try:
+                                        devices = sd.query_devices()
+                                        for i, device in enumerate(devices):
+                                            if 'pipewire' in device['name'].lower():
+                                                output_device = i
+                                                break
+                                    except Exception:
+                                        pass
+                                    sd.play(float_samples, samplerate=sample_rate, device=output_device)
                                     sd.wait()
                                 except Exception as play_err2:
                                     print(f"[TTS] Replay error: {play_err2}")

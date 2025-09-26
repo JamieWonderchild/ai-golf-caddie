@@ -101,9 +101,10 @@ class PipecatGolfPipeline:
             params=SpeechmaticsSTTService.InputParams(
                 language=Language.EN,
                 enable_partials=True,
-                max_delay=3.0,  # Allow 3 seconds for natural speech pauses (was 1.0s)
+                max_delay=3.0,  # Allow 3 seconds for natural speech pauses
                 chunk_size=160, # Keep chunk size small for responsiveness
                 enable_vad=True,  # Use Voice Activity Detection for better speech boundary detection
+                end_of_utterance_silence_trigger=3.0,  # Allow 3 seconds of silence before ending utterance
             )
         )
         
